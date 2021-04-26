@@ -1,4 +1,4 @@
-# BookStore sample application
+# Social Media application
 
 ## Setup
 
