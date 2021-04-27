@@ -38,7 +38,11 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'profiles',
+    'posts',
+    'crispy_forms',
 ]
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -89,8 +93,10 @@ DATABASES = {
         },
         'NAME': 'social_network',
         'USER': 'root',
-        'Password':'',
-        'HOST':'localhost'
+        'PASSWORD':'123456789',
+        'HOST':'localhost',
+        'PORT': 3306
+
     }
 }
 
