@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from .models import Profile, Relationship
 from .forms import ProfileModelForm
+from django.db.models import Q
 from django.views.generic import ListView
 from django.contrib.auth.models import  User
 # Create your views here.
@@ -92,3 +93,19 @@ def send_invatation(request):
 
         return redirect(request.META.get('HTTP_REFERER'))
     return redirect('profiles:my-profile-view')
+
+def remove_from_friends(request):
+    if request.method=='POST':
+        pk = request.POST.get('profile_pk')
+        user = request.user
+        sender = Profile.objects.get(user=user)
+        receiver = Profile.objects.get(pk=pk)
+
+        rel = Relationship.objects.get(
+            (Q(sender=sender) & Q(receiver=receiver)) | (Q(sender=receiver) & Q(receiver=sender))
+        )
+        rel.delete()
+        return redirect(request.META.get('HTTP_REFERER'))
+    return redirect('profiles:my-profile-view')
+
+
