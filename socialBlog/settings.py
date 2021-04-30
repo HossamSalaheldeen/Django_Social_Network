@@ -89,7 +89,7 @@ DATABASES = {
         },
         'NAME': 'social_network',
         'USER': 'root',
-        'Password':'',
+        'PASSWORD':'0000',
         'HOST':'localhost'
     }
 }
