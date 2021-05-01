@@ -24,8 +24,7 @@ def my_profile_view(request):
 
     return render(request, 'profiles/myprofile.html', context)
 
-<<<<<<< HEAD
-=======
+
 def invite_received_view(request):
     profile = Profile.objects.get(user=request.user)
     qs = Relationship.objects.invatations_received(profile)
@@ -111,4 +110,3 @@ def remove_from_friends(request):
     return redirect('profiles:my-profile-view')
 
 
->>>>>>> e27293d299abf7de8cffec18eea04057635e7993

@@ -116,11 +116,7 @@ class Relationship(models.Model):
     updated = models.DateTimeField(auto_now=True)
     created = models.DateTimeField(auto_now_add=True)
     
-<<<<<<< HEAD
-    
-=======
-    objects = RelationshipManager()
->>>>>>> e27293d299abf7de8cffec18eea04057635e7993
+
 
     def __str__(self):
         return f"{self.sender}-{self.receiver}-{self.status}"
