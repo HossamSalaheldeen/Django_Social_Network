@@ -31,6 +31,15 @@ def invite_received_view(request):
     
     context = {'qs' : qs}
     return render(request, 'profiles/my_invites.html', context)
+ 
+
+
+def accept_invatation(request):
+    pass
+
+
+def reject_invatation(request):
+    pass
 
 
 def invite_profiles_list_view(request):

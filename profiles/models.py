@@ -115,6 +115,7 @@ class Relationship(models.Model):
     status = models.CharField(max_length=8, choices=STATUS_CHOICES)
     updated = models.DateTimeField(auto_now=True)
     created = models.DateTimeField(auto_now_add=True)
+    objects=RelationshipManager()
     
 
 
