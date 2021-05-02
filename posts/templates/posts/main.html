@@ -10,20 +10,25 @@
         <div class="ui fluid card">
             <div class="content">
                 <div class="right floated meta">
-                    <div class="ui grid">
-                        <div class="row">
-                            {% ifequal request.user obj.author.user %}
-                            <a href="{% url 'posts:post-update' obj.pk %}"><button
-                                    class="ui button bwhite-lg ">Update</button></a>
-                            <a href="{% url 'posts:post-delete' obj.pk %}"><button
-                                    class="ui button bwhite-lg ">Delete</button></a>
-                            {% endifequal %}
+                    <div class="row">
+                        {% ifequal request.user obj.author.user %}
+                        <div class="col-md-6 p-0 m-0">
+                            <a class="ml-3" href="{% url 'posts:post-update' obj.pk %}">
+                            <button class="btn btn-warning "> <i class="thumbs edit icon"></i> Update</button>
+                        </a>
                         </div>
+                        <div class="col-md-6 p-0 m-0">
+                            <a class="ml-3" href="{% url 'posts:post-delete' obj.pk %}">
+                                <button class="btn btn-danger"> <i class="thumbs trash icon"></i> Delete</button>
+                            </a>
+                        </div>
+
+                        {% endifequal %}
                     </div>
 
                 </div>
                 <img class="ui avatar image" src={{obj.author.avatar.url}}>
-                {{ obj.author.user }} - {{ obj.created|timesince}} ago
+                <h5 class="d-inline-block mt-2">{{ obj.author.user }} - {{ obj.created|timesince}} ago</h5>
             </div>
             <div class="ui fluid image">
                 {% if obj.image %}
@@ -31,30 +36,33 @@
                 {% endif %}
             </div>
             <div class="content">
-                <p> {{ obj.content }} </p>
+                <h3> {{ obj.content }} </h3>
                 <div class="right floated">
-                    <form action="{% url 'posts:like-post-view' %}" method="POST">
+                    <form action="{% url 'posts:like-post-view' %}" method="POST" class='like-form' id='{{obj.id}}'>
                         {% csrf_token %}
                         <input type="hidden" name="post_id" value={{obj.id}}>
-                        {% if profile not in obj.liked.all %}
-                        <button type="submit" class="ui bwhite-sm button"><i class="thumbs up icon"></i>
-                        </button>
-                        <span> {{obj.num_likes}} likes</span>
-                        {% else %}
-                        <button type="submit" class="ui bwhite-sm button"><i class="thumbs down icon"></i>
-                        </button>
-                        <span> {{obj.num_likes}} likes</span>
-                        {% endif %}
+                            <!--<span class="ui button like-count{{obj.id}}"> {{obj.num_likes}}</span>-->
+                            <button type="submit" class="ui button like-btn{{obj.id}}">
+                                {% if profile not in obj.liked.all %}
+                                    <i class="thumbs up icon"></i> Like
+                                {% else %}
+                                    <i class="thumbs up icon"></i> Unlike
+                                {% endif %}
+                            </button>
+
+                            <div class="ui grid pt-2 text-center">
+                                <div class="column">
+                                    <div class="like-count{{obj.id}}"> {{obj.num_likes}} likes </div>
+                                </div>
+
+                            </div>
                     </form>
                 </div>
-                <i class="comment icon"></i>
-                <span> {{ obj.num_comments }} comments</span>
-            </div>
-            <div class="extra content">
-                <div class="mb-5">
 
-                </div>
-                <button class="cmt_btn ui button mb-5">show / hide comments</button>
+                <button class="cmt_btn ui button mb-5">
+                    <i class="comment icon"></i>
+                    <span> {{ obj.num_comments }} comments</span>
+                </button>
                 <div class="comment-box" style="display:none">
                     {% if obj.comment_set.all %}
                     {% for c in obj.comment_set.all %}
@@ -68,6 +76,10 @@
                     {% endfor %}
                     {% endif %}
                 </div>
+            </div>
+            <div class="extra content">
+
+
 
                 <form action="" method="POST" class='ui fluid form'>
                     {% csrf_token %}

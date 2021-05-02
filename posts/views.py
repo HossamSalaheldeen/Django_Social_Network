@@ -12,6 +12,7 @@ from django.views.generic import UpdateView, DeleteView
 from django.contrib import messages
 # Create your views here.
 
+
 def post_comment_create_and_list_view(request):
     qs = Post.objects.all()
     profile = Profile.objects.get(user=request.user)
@@ -23,6 +24,7 @@ def post_comment_create_and_list_view(request):
     }
 
     return render(request, 'posts/main.html', context)
+
 
 def like_unlike_post(request):
     user = request.user
@@ -48,6 +50,12 @@ def like_unlike_post(request):
             post_obj.save()
 
             like.save()
+        data = {
+            'value': like.value,
+            'likes': post_obj.liked.all().count()
+        }
+
+        return JsonResponse(data, safe=False)
 
     return redirect('posts:main-post-view')
 
@@ -64,7 +72,8 @@ class PostDeleteView(DeleteView):
         if not obj.author.user == self.request.user:
             messages.warning(self.request, 'You must be the author of the post to be able to delete it!')
         return obj
-    
+
+
 class PostUpdateView(UpdateView):
     form_class = PostModelForm
     model = Post 
@@ -78,4 +87,3 @@ class PostUpdateView(UpdateView):
         else:
             form.add_error(None, 'You must be the author of the post to be able to update it!')
             return super().form_invalid(form)
-    
