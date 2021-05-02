@@ -3,13 +3,13 @@ from django.contrib.auth.models import User
 from django.dispatch import receiver
 from .models import Profile, Relationship
 
-
+#writing a signal for Profile object creation automatically on user instance creation
 @receiver(post_save, sender=User)
 def post_save_create_profile(sender, instance, created, **kwargs):
     if created:
         Profile.objects.create(user=instance)
 
-
+#creating a signal to add to friends if the relationship status is "accepted"
 @receiver(post_save, sender=Relationship)
 def post_save_add_to_friends(sender, instance, created, **kwargs):
     sender_ = instance.sender
