@@ -3,7 +3,6 @@ from django.urls import reverse_lazy
 from .models import Post, Like
 from profiles.models import Profile
 from .forms import PostModelForm, CommentModelForm
-from django.views.generic import UpdateView, DeleteView
 from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -16,7 +15,6 @@ from django.contrib import messages
 def post_comment_create_and_list_view(request):
     qs = Post.objects.all()
     profile = Profile.objects.get(user=request.user)
-
 
     context = {
         'qs': qs,
@@ -63,8 +61,8 @@ def like_unlike_post(request):
 
 class PostDeleteView(LoginRequiredMixin, DeleteView):
     model = Post 
-    template_name= 'posts/confirm_del.html'
-    success_url= reverse_lazy('posts:main-post-view')
+    template_name = 'posts/confirm_del.html'
+    success_url = reverse_lazy('posts:main-post-view')
     # success_url= '/posts/'
     
     def get_object(self, *args, **kwargs):
