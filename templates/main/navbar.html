@@ -7,7 +7,7 @@
 
 <div class="ui inverted menu nav mb-7">
   <div class="ui container">
-    
+
     <a href="{{path_to_home}}" class="{% if request.path == path_to_home %}active{% endif %} item">
         <h3>Social Network</h3>
     </a>
@@ -22,20 +22,24 @@
         {% if request.user.is_authenticated %}
 
             <div class="item">
-                <div class="ui floating dropdown icon button teal"> Friends
-                    <i class="dropdown icon"></i>
-                    <div class="menu">
-                        <a href="{{path_to_all_profiles}}" class="{% if request.path == path_to_all_profiles %}active{% endif %} item">
-                            All Profiles
-                        </a>
-                        <a href="{{path_to_invites}}" class="{% if request.path == path_to_invites %}active{% endif %} item">
+
+                <div class="btn-group">
+                      <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Friends
+                      </button>
+                      <div class="dropdown-menu">
+                            <a href="{{path_to_all_profiles}}" class="{% if request.path == path_to_all_profiles %}active{% endif %} dropdown-item py-2">
+                                All Profiles
+                            </a>
+                            <a href="{{path_to_invites}}" class="{% if request.path == path_to_invites %}active{% endif %} dropdown-item py-2">
                             Send Invites
-                        </a>
-                        <a href="{{path_to_my_invites}}" class="{% if request.path == path_to_my_invites %}active{% endif %} item">
-                            Received Invites &nbsp; <div class="ui purple horizontal label">{{invites_num}}</div>
-                        </a>
-                    </div>
+                            </a>
+                            <a href="{{path_to_my_invites}}" class="{% if request.path == path_to_my_invites %}active{% endif %} dropdown-item py-2">
+                                Received Invites &nbsp; <div class="badge badge-info">{{invites_num}}</div>
+                            </a>
+                      </div>
                 </div>
+
             </div>
 
             <div class="item">
@@ -48,9 +52,10 @@
                     </div>
                 </form>
             </div>
-        
+
             <a href="{{path_to_my_profile}}" class="{% if request.path == path_to_my_profile %}active{% endif %} item">
-                 {{ request.user }}
+                <img src={{picture.url}} class="ui avatar image">&nbsp;
+                {{ request.user }}
             </a>
 
             <a href="" class="ui item">Logout</a>
