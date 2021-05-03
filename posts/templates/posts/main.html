@@ -41,21 +41,16 @@
                     <form action="{% url 'posts:like-post-view' %}" method="POST" class='like-form' id='{{obj.id}}'>
                         {% csrf_token %}
                         <input type="hidden" name="post_id" value={{obj.id}}>
-                            <!--<span class="ui button like-count{{obj.id}}"> {{obj.num_likes}}</span>-->
+                            <span class="ui button like-count{{obj.id}}"> {{obj.num_likes}}</span>
                             <button type="submit" class="ui button like-btn{{obj.id}}">
                                 {% if profile not in obj.liked.all %}
                                     <i class="thumbs up icon"></i> Like
                                 {% else %}
-                                    <i class="thumbs up icon"></i> Unlike
+                                    <i class="thumbs down icon"></i> Unlike
                                 {% endif %}
                             </button>
 
-                            <div class="ui grid pt-2 text-center">
-                                <div class="column">
-                                    <div class="like-count{{obj.id}}"> {{obj.num_likes}} likes </div>
-                                </div>
 
-                            </div>
                     </form>
                 </div>
 
@@ -109,6 +104,7 @@
 {% endblock content %}
 
 {% block scripts %}
+
 <script>
     $(document).ready(function () {
         let display = false
@@ -121,6 +117,46 @@
                 display = false
             }
         });
+
+        $('.like-form').submit(function(e){
+            e.preventDefault()
+
+            const post_id = $(this).attr('id')
+
+            const likeText = $(`.like-btn${post_id}`).text()
+            const trim = $.trim(likeText)
+
+            const url = $(this).attr('action')
+
+            let res;
+            const likes = $(`.like-count${post_id}`).text();
+            const trimCount = parseInt(likes);
+
+            $.ajax({
+                type: 'POST',
+                url: url,
+                data: {
+                    'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val(),
+                    'post_id':post_id,
+                },
+                success: function(response) {
+                    if(trim === 'Unlike') {
+                        $(`.like-btn${post_id}`).html('<i class="thumbs up icon"></i> Like')
+                        res = trimCount - 1
+                    } else {
+                        $(`.like-btn${post_id}`).html('<i class="thumbs down icon"></i> Unlike')
+                        res = trimCount + 1
+                    }
+
+                    $(`.like-count${post_id}`).text(res)
+                },
+                error: function(response) {
+                    console.log('error', response)
+                }
+            })
+
+        })
+
     });
 </script>
 {% endblock scripts %}
