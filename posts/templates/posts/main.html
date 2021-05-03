@@ -80,7 +80,9 @@
                     {% csrf_token %}
                     <input type="hidden" name="post_id" value={{obj.id}}>
                     {{ c_form }}
-                    <button type="submit" name="submit_c_form" class="ui primary button mt-5 w-full">Send</button>
+                    <button type="submit" name="submit_c_form" class="ui primary button mt-3 w-full">
+                        <i class="thumbs send icon"></i> Send
+                    </button>
                 </form>
             </div>
         </div>
@@ -90,13 +92,16 @@
     </div>
     <div class="five wide column">
         <div class="ui segment">
+            <h2>Add new Post</h2>
             {% if post_added %}
             <div class="ui green message">Post added</div>
             {% endif %}
             <form action="" method="POST" class='ui form' enctype="multipart/form-data">
                 {% csrf_token %}
                 {{p_form}}
-                <button type='submit' name="submit_p_form" class="ui positive button w-full mt-5">Send</button>
+                <button type='submit' name="submit_p_form" class="ui positive button mt-3 w-full">
+                    <i class="thumbs send icon"></i> Send
+                </button>
             </form>
         </div>
     </div>
