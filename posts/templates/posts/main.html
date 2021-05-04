@@ -112,6 +112,12 @@
 
 <script>
     $(document).ready(function () {
+
+        $('#id_body, #id_content').addClass('emoji');
+        $('.emoji').emojioneArea({
+            pickerPosition: 'botton'
+        });
+
         let display = false
         $(".cmt_btn").click(function () {
             if (display === false) {

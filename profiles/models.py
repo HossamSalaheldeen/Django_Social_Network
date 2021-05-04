@@ -131,7 +131,7 @@ class RelationshipManager(models.Manager):
     
 
 
-
+#defining Relationship model
 class Relationship(models.Model):
     sender = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='sender')
     receiver = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='receiver')

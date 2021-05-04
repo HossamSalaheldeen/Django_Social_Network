@@ -58,9 +58,9 @@
                 {{ request.user }}
             </a>
 
-            <a href="" class="ui item">Logout</a>
+            <a href="{% url 'account_logout' %}" class="ui item">Logout</a>
         {% else %}
-            <a href="" class="ui item">Login</a>
+            <a href="{% url 'account_login' %}" class="ui item">Login</a>
         {% endif %}
 
     </div>
