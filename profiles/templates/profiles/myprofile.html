@@ -6,7 +6,16 @@
 
 {% block content %}
 
+{% if firstTime %}
 <div class="container">
+    <form role="form" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{form|crispy}}
+        <button type="submit" class="btn btn-success">Set your profile</button>
+    </form>
+</div>
+{% else %}
+ <div class="container">
     {% if confirm %}
     <div class='alert alert-success'>Your Profile Has Been Updated Successfully</div>
     {% endif %}
@@ -43,14 +52,15 @@
                         <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                             <div class="form-group">
                                 <label for="fullName">Full Name</label>
-                                <input type="text" class="form-control" id="fullName" value="{{profile.first_name}} {{profile.last_name}}" placeholder="Enter full name" readonly>
+                                <div  class="alert alert-info">{{profile.first_name}} {{profile.last_name}}</div>
                             </div>
                         </div>
 
                         <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                             <div class="form-group">
                                 <label for="email">Email</label>
-                                <input type="email" class="form-control" id="email" value="{{profile.email}}" readonly>
+                
+                                <div  class="alert alert-info">{{profile.user.email}}</div>
                             </div>
                         </div>
                     </div>
@@ -58,14 +68,45 @@
                     <div class="row gutters">
                         <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                             <div class="form-group">
-                                <label for="city">Country</label>
-                                <input type="name" class="form-control" id="city" value="{{profile.country}}" readonly>
+                                <label for="country">Country</label>
+                                <div  class="alert alert-info">{{profile.country}}</div>
                             </div>
                         </div>
                         <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                             <div class="form-group">
-                                <label for="state">City</label>
-                                <input type="text" class="form-control" id="sTate" value="{{profile.city}}" readonly>
+                                <label for="state">Gender</label>
+                                <div  class="alert alert-info">{{profile.gender}}</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row gutters">
+                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                            <div class="form-group">
+                                <label for="country">Number of friends</label>
+                                <div  class="alert alert-info">{{profile.get_friends_no}}</div>
+                            </div>
+                        </div>
+                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                            <div class="form-group">
+                                <label for="state">Number of posts</label>
+                                <div  class="alert alert-info">{{profile.get_posts_no}}</div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="row gutters">
+                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                            <div class="form-group">
+                                <label for="country">Number of likes given</label>
+                                <div  class="alert alert-info">{{profile.get_likes_given_no}}</div>
+                            </div>
+                        </div>
+                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                            <div class="form-group">
+                                <label for="state">Number of likes received</label>
+                                <div  class="alert alert-info">{{profile.get_likes_recieved_no}}</div>
                             </div>
                         </div>
                     </div>
@@ -81,14 +122,17 @@
             </div>
         </div>
     </div>
-</div>
+</div> 
 
-<!-- Modal HTML Markup -->
+
 <div id="ModalEditProfileForm" class="modal fade" style="height: 600px; ">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h1 class="modal-title">Edit Your Profile</h1>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
             </div>
             <div class="modal-body">
                 <div class="profile-header text-center">
@@ -98,11 +142,17 @@
                 <form role="form" method="POST" enctype="multipart/form-data">
                     {% csrf_token %}
                     {{form|crispy}}
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                     <button type="submit" class="btn btn-success">Update</button>
                 </form>
             </div>
-        </div><!-- /.modal-content -->
-    </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
+        </div>
+    </div>
+</div> 
+
+
+{% endif %}
+
+
 
 {% endblock content %}

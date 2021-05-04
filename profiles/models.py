@@ -4,6 +4,7 @@ from django.shortcuts import reverse
 from django.template.defaultfilters import slugify
 from .utils import get_random_code
 from django.db.models import Q
+import datetime
 # Create your models here.
 
 class ProfileManager(models.Manager):
@@ -30,14 +31,20 @@ class ProfileManager(models.Manager):
         profiles = Profile.objects.all().exclude(user=me)
         return profiles
 
+GENDER_CHOICES = (
+    ('male', 'male'),
+    ('female', 'female')
+)
 #Profile Model
 class Profile(models.Model):
     first_name = models.CharField(max_length=200, blank=True)
     last_name  = models.CharField(max_length=200, blank=True)
     user       = models.OneToOneField(User, on_delete=models.CASCADE)
     bio        = models.TextField(default="no bio...", max_length=300, blank=True)
-    email      = models.EmailField(max_length=200, blank=True)
+    #email      = models.EmailField(max_length=200, blank=True)
     country    = models.CharField(max_length=200, blank=True)
+    gender     = models.CharField(default='male',max_length=6, choices=GENDER_CHOICES, blank=True)
+    date_of_birth = models.DateField(default=datetime.date.today(), blank=True)
     avatar     = models.ImageField(default='avatars/avatar.png', upload_to='avatars/')
     friends    = models.ManyToManyField(User, blank=True, related_name='friends')
     slug       = models.SlugField(unique=True, blank=True)
@@ -67,14 +74,11 @@ class Profile(models.Model):
     def get_all_authors_posts(self):
         return self.posts.all()
 
-    def get_likes_given(self):
-        
-        likes = self.like.set_all()
-        
+    def get_likes_given_no(self):
+        likes = self.like_set.all()
         total_liked = 0
-
-        for like in likes:
-            if like.value == 'Like':
+        for item in likes:
+            if item.value=='Like':
                 total_liked += 1
         return total_liked
     
