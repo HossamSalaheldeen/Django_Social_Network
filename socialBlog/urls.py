@@ -25,7 +25,8 @@ urlpatterns = [
     path('login_success/', login_success,name='login_success'),
     path('accounts/', include('allauth.urls')),
     path('profiles/', include('profiles.urls', namespace='profiles')),
-    path('posts/', include('posts.urls', namespace='posts')), 
+    path('posts/', include('posts.urls',  namespace='posts')), 
+    path('groups/',include('groups.urls', namespace='groups')),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

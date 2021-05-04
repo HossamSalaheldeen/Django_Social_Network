@@ -40,10 +40,12 @@ INSTALLED_APPS = [
     'django.contrib.sites',
     'profiles',
     'posts',
+    'django_misaka',
     'crispy_forms',
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
+    'groups',
 ]
 
 SITE_ID = 1

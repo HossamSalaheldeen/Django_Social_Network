@@ -46,6 +46,22 @@
 
             </div>
 
+
+
+            <div class="item">
+                <li class="dropdown"><a class="dropdown-toggle" id="link" data-toggle="dropdown" href="#">Group <span
+                            class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li id="post1"><a href="{% url 'groups:all' %}">All Groups</a></li>
+                        <li id="post1"><a href="{% url 'groups:create' %}">New Group</a></li>
+                    </ul>
+                </li>
+            </div>
+
+
+
+
+
             <div class="item">
                 <form action="" method="GET">
                     {% csrf_token %}
