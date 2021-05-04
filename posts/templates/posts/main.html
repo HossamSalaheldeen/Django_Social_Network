@@ -14,8 +14,8 @@
                         {% ifequal request.user obj.author.user %}
                         <div class="col-md-6 p-0 m-0">
                             <a class="ml-3" href="{% url 'posts:post-update' obj.pk %}">
-                            <button class="btn btn-warning "> <i class="thumbs edit icon"></i> Update</button>
-                        </a>
+                                <button class="btn btn-warning "> <i class="thumbs edit icon"></i> Update</button>
+                            </a>
                         </div>
                         <div class="col-md-6 p-0 m-0">
                             <a class="ml-3" href="{% url 'posts:post-delete' obj.pk %}">
@@ -41,14 +41,14 @@
                     <form action="{% url 'posts:like-post-view' %}" method="POST" class='like-form' id='{{obj.id}}'>
                         {% csrf_token %}
                         <input type="hidden" name="post_id" value={{obj.id}}>
-                            <span class="ui button like-count{{obj.id}}"> {{obj.num_likes}}</span>
-                            <button type="submit" class="ui button like-btn{{obj.id}}">
-                                {% if profile not in obj.liked.all %}
-                                    <i class="thumbs up icon"></i> Like
-                                {% else %}
-                                    <i class="thumbs down icon"></i> Unlike
-                                {% endif %}
-                            </button>
+                        <span class="ui button like-count{{obj.id}}"> {{obj.num_likes}}</span>
+                        <button type="submit" class="ui button like-btn{{obj.id}}">
+                            {% if profile not in obj.liked.all %}
+                            <i class="thumbs up icon"></i> Like
+                            {% else %}
+                            <i class="thumbs down icon"></i> Unlike
+                            {% endif %}
+                        </button>
 
 
                     </form>
@@ -108,6 +108,7 @@
             <form action="" method="POST" class='ui form' enctype="multipart/form-data">
                 {% csrf_token %}
                 {{p_form}}
+
                 <button type='submit' name="submit_p_form" class="ui positive button mt-3 w-full">
                     <i class="thumbs send icon"></i> Send
                 </button>
@@ -138,7 +139,7 @@
             }
         });
 
-        $('.like-form').submit(function(e){
+        $('.like-form').submit(function (e) {
             e.preventDefault()
 
             const post_id = $(this).attr('id')
@@ -157,10 +158,10 @@
                 url: url,
                 data: {
                     'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val(),
-                    'post_id':post_id,
+                    'post_id': post_id,
                 },
-                success: function(response) {
-                    if(trim === 'Unlike') {
+                success: function (response) {
+                    if (trim === 'Unlike') {
                         $(`.like-btn${post_id}`).html('<i class="thumbs up icon"></i> Like')
                         res = trimCount - 1
                     } else {
@@ -170,7 +171,7 @@
 
                     $(`.like-count${post_id}`).text(res)
                 },
-                error: function(response) {
+                error: function (response) {
                     console.log('error', response)
                 }
             })

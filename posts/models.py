@@ -1,6 +1,7 @@
 from django.db import models
 from django.core.validators import FileExtensionValidator
 from profiles.models import Profile
+from groups.models import Group
 # Create your models here.
 
 #Post Model
@@ -11,7 +12,8 @@ class Post(models.Model):
     updated = models.DateTimeField(auto_now=True)
     created = models.DateTimeField(auto_now_add=True)
     author  = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='posts')
-
+    group=models.ForeignKey(Group,related_name='posts',null=True,blank=True,on_delete=models.CASCADE)
+    
     def __str__(self):
         return str(self.content[:20])
 
@@ -20,9 +22,14 @@ class Post(models.Model):
 
     def num_comments(self):
         return self.comment_set.all().count()
+    
+    def user_groups(self):
+        return self.group.members.all()
 
     class Meta:
         ordering = ('-created',)
+        
+        
 
 #Comment Model
 class Comment(models.Model):
@@ -50,3 +57,5 @@ class Like(models.Model):
     
     def __str__(self):
         return f"{self.user}-{self.post}-{self.value}"
+    
+    

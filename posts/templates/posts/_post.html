@@ -1,0 +1,17 @@
+<div class="post-media">
+    <h2><b>{{post.user.username}}</b></h2>
+    <br>
+    <div class="media-body">
+        <h4> <U>{{post.message_html|safe}}</U></h4>
+        {% if post.group %}
+        <h4> Posted in: {{post.group.name}}</h4>
+        <br>
+        {% endif %}
+        {% if request.user.is_authenticated %}
+
+        {% endif %}
+    </div>
+    <div class="media-footer">
+
+    </div>
+</div>
