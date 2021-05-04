@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
-from .models import Post, Like
+from .models import Post, Like, Comment
 from profiles.models import Profile
 from .forms import PostModelForm, CommentModelForm
 from django.http import JsonResponse
@@ -115,3 +115,9 @@ class PostUpdateView(LoginRequiredMixin, UpdateView):
         else:
             form.add_error(None, 'You must be the author of the post to be able to update it!')
             return super().form_invalid(form)
+
+
+@login_required
+def post_comment_delete(self, pk):
+    Comment.objects.get(pk=pk).delete()
+    return redirect('posts:main-post-view')
