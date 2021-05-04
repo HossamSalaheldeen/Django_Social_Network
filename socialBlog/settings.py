@@ -116,11 +116,13 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'OPTIONS': {
         'sql_mode': 'traditional',
+        'charset': 'utf8mb4',
+        'use_unicode': True,
         },
         'NAME': 'social_network',
         'USER': 'root',
         'PASSWORD':'',
-        'HOST':'localhost',
+        'HOST':'127.0.0.1',
         'PORT': 3306
 
     }
