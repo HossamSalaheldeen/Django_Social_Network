@@ -65,7 +65,16 @@
                     <div class="ui segment mb-5">
                         <img class="ui avatar image" src={{c.user.avatar.url}}>
                         <span>{{ c.user }}</span>
-                        <div class='mt-5'>{{ c.body }}</div>
+                        <div class='my-4'>{{ c.body }}</div>
+
+                        {% ifequal request.user.id c.user_id %}
+                        <div class="col-md-6 p-0 m-0">
+                            <a href="{% url 'posts:post-comment-delete' c.pk %}">
+                                <button class="btn btn-danger"> <i class="thumbs trash icon"></i> Delete</button>
+                            </a>
+                        </div>
+                        {% endifequal %}
+
                     </div>
 
                     {% endfor %}
