@@ -57,5 +57,12 @@ class Like(models.Model):
     
     def __str__(self):
         return f"{self.user}-{self.post}-{self.value}"
+
+class BadWord(models.Model):
+
+    word   = models.CharField(max_length=100)
+    
+    def __str__(self):
+        return self.word
     
     
