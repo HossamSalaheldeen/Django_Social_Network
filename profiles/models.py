@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from django.shortcuts import reverse
 from django.template.defaultfilters import slugify
 from .utils import get_random_code
+from django.utils.timezone import now
 from django.db.models import Q
 import datetime
 # Create your models here.
@@ -44,7 +45,7 @@ class Profile(models.Model):
     #email      = models.EmailField(max_length=200, blank=True)
     country    = models.CharField(max_length=200, blank=True)
     gender     = models.CharField(default='male',max_length=6, choices=GENDER_CHOICES, blank=True)
-    date_of_birth = models.DateField(default=datetime.date.today(), blank=True)
+    date_of_birth = models.DateField(default=datetime.date.today, blank=True)
     avatar     = models.ImageField(default='avatars/avatar.png', upload_to='avatars/')
     friends    = models.ManyToManyField(User, blank=True, related_name='friends')
     slug       = models.SlugField(unique=True, blank=True)

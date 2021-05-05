@@ -3,6 +3,7 @@ from django.urls import reverse_lazy
 from .models import Post, Like, Comment
 from profiles.models import Profile
 from .forms import PostModelForm, CommentModelForm
+from groups.models import Group
 from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -20,7 +21,7 @@ def post_comment_create_and_list_view(request):
     p_form = PostModelForm()
     c_form = CommentModelForm()
     post_added = False
-
+    p_form.fields['group'].queryset = Group.objects.filter(members=request.user)
     profile = Profile.objects.get(user=request.user)
 
     if 'submit_p_form' in request.POST:
