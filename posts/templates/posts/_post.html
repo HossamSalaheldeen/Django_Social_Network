@@ -3,10 +3,6 @@
     <br>
     <div class="media-body">
         <h4> <U>{{post.message_html|safe}}</U></h4>
-        {% if post.group %}
-        <h4> Posted in: {{post.group.name}}</h4>
-        <br>
-        {% endif %}
         {% if request.user.is_authenticated %}
 
         {% endif %}

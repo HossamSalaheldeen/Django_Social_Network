@@ -15,7 +15,7 @@ from django.db.models import Q
 
 @login_required
 def post_comment_create_and_list_view(request):
-    qs = Post.objects.filter(Q(group__members=request.user) | Q(author__user=request.user))
+    qs = Post.objects.filter(Q(group__members=request.user) | Q(author__friends=request.user) & Q(group__isnull = True) | Q(author__user=request.user))
     profile = Profile.objects.get(user=request.user)
     # initials
     p_form = PostModelForm()
@@ -116,7 +116,6 @@ class PostUpdateView(LoginRequiredMixin, UpdateView):
         else:
             form.add_error(None, 'You must be the author of the post to be able to update it!')
             return super().form_invalid(form)
-
 
 @login_required
 def post_comment_delete(self, pk):
