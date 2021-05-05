@@ -102,11 +102,10 @@
             {% if post_added %}
             <div class="ui green message">Post added</div>
             {% endif %}
-            <form action="" method="POST" class='ui form' enctype="multipart/form-data">
+            <form method="POST" class='ui form' enctype="multipart/form-data">
                 {% csrf_token %}
                 {{p_form}}
-
-                <button type='submit' name="submit_p_form" class="ui positive button mt-3 w-full">
+                <button type='submit' name="submit_p_form" class="ui positive button mt-3 w-full click">
                     <i class="thumbs send icon"></i> Send
                 </button>
             </form>
@@ -135,6 +134,12 @@
                 display = false
             }
         });
+
+        $(".click").click(function(){
+            setTimeout(function () {
+                location.reload()
+            }, 100);
+        })
 
         $('.like-form').submit(function (e) {
             e.preventDefault()
