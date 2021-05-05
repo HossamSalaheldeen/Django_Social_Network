@@ -89,7 +89,7 @@ class Profile(models.Model):
         total_liked = 0
 
         for post in posts:
-            total_liked += post.likes.all().count()
+            total_liked += post.liked.all().count()
 
         return total_liked
 
