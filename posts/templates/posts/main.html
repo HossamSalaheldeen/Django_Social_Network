@@ -6,7 +6,6 @@
 <div class="ui grid">
     <div class="eleven wide column">
         {% for obj in qs %}
-
         <div class="ui fluid card">
             <div class="content">
                 <div class="right floated meta">
@@ -49,8 +48,6 @@
                             <i class="thumbs down icon"></i> Unlike
                             {% endif %}
                         </button>
-
-
                     </form>
                 </div>
 
@@ -74,17 +71,12 @@
                             </a>
                         </div>
                         {% endifequal %}
-
                     </div>
-
                     {% endfor %}
                     {% endif %}
                 </div>
             </div>
             <div class="extra content">
-
-
-
                 <form action="" method="POST" class='ui fluid form'>
                     {% csrf_token %}
                     <input type="hidden" name="post_id" value={{obj.id}}>
@@ -95,8 +87,6 @@
                 </form>
             </div>
         </div>
-
-
         {% endfor %}
     </div>
     <div class="five wide column">
