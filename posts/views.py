@@ -9,14 +9,14 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import UpdateView, DeleteView
 from django.contrib import messages
+from django.db.models import Q
 # Create your views here.
 
 
 @login_required
 def post_comment_create_and_list_view(request):
-    qs = Post.objects.all()
+    qs = Post.objects.filter(Q(group__members=request.user) | Q(author__user=request.user))
     profile = Profile.objects.get(user=request.user)
-
     # initials
     p_form = PostModelForm()
     c_form = CommentModelForm()
