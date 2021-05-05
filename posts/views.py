@@ -15,9 +15,8 @@ from django.db.models import Q
 
 @login_required
 def post_comment_create_and_list_view(request):
-    qs = Post.objects.filter(Q(group__members=request.user) | Q(author__friends=request.user) & Q(group__isnull = True) | Q(author__user=request.user))
+    qs = Post.objects.filter(Q(group__members=request.user) | Q(author__friends=request.user) & Q(group__isnull = True) | Q(author__user=request.user) & Q(group__isnull = True))
     profile = Profile.objects.get(user=request.user)
-    # initials
     p_form = PostModelForm()
     c_form = CommentModelForm()
     post_added = False
@@ -25,7 +24,6 @@ def post_comment_create_and_list_view(request):
     profile = Profile.objects.get(user=request.user)
 
     if 'submit_p_form' in request.POST:
-        print(request.POST)
         p_form = PostModelForm(request.POST, request.FILES)
         if p_form.is_valid():
             instance = p_form.save(commit=False)
