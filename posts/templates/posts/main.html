@@ -27,7 +27,12 @@
 
                 </div>
                 <img class="ui avatar image" src={{obj.author.avatar.url}}>
-                <h5 class="d-inline-block mt-2">{{ obj.author.user }} - {{ obj.created|timesince}} ago</h5>
+                <h5 class="d-inline-block mt-2">
+                    {{ obj.author.user }} - {{ obj.created|timesince}} ago 
+                    {% if obj.group %}
+                        ><a href="{% url 'groups:single' slug=obj.group.slug%}"> {{obj.group.name}}</a>
+                    {% endif %}
+                </h5>
             </div>
             <div class="ui fluid image">
                 {% if obj.image %}
@@ -58,7 +63,6 @@
                 <div class="comment-box" style="display:none">
                     {% if obj.comment_set.all %}
                     {% for c in obj.comment_set.all %}
-
                     <div class="ui segment mb-5">
                         <img class="ui avatar image" src={{c.user.avatar.url}}>
                         <span>{{ c.user }}</span>
