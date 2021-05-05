@@ -129,7 +129,11 @@ DATABASES = {
         },
         'NAME': 'social_network',
         'USER': 'root',
+<<<<<<< HEAD
+        'PASSWORD':'0000',
+=======
         'PASSWORD':'',
+>>>>>>> 1d6895328ac7825327878094e050b977cd2a428b
         'HOST':'127.0.0.1',
         'PORT': 3306
 
@@ -172,6 +176,16 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
+
+
+EMAIL_BACKEND ='django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST='smtp.gmail.com'
+EMAIL_HOST_PASSWORD = '123456789iti'
+EMAIL_HOST_USER = '41.os.iti@gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_USE_SSL = False
+authentication: 'plain'
 
 STATIC_URL = '/static/'
 
