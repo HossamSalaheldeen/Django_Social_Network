@@ -58,6 +58,8 @@ def like_unlike_post(request):
 
     if request.method == "POST":
         post_id  = request.POST.get('post_id')
+        user_id  = request.POST.get('user_id')
+        print(user_id)
         post_obj = Post.objects.get(id=post_id)
         profile  = Profile.objects.get(user=user)
         

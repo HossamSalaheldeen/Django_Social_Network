@@ -48,6 +48,7 @@
                     <form action="{% url 'posts:like-post-view' %}" method="POST" class='like-form' id='{{obj.id}}'>
                         {% csrf_token %}
                         <input type="hidden" name="post_id" value={{obj.id}}>
+                        <input type="hidden" name="user_id" value="{{ obj.author_id }}">
                         <span class="ui button like-count{{obj.id}}"> {{obj.num_likes}}</span>
                         <button type="submit" class="ui button like-btn{{obj.id}}">
                             {% if profile not in obj.liked.all %}
