@@ -6,7 +6,8 @@ from django.views.generic import ListView, DetailView
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-
+from django.conf import settings
+from django.core.mail import send_mail
 from django.conf import settings as conf_settings
 # Create your views here.
 
@@ -190,5 +191,26 @@ def remove_from_friends(request):
         rel.delete()
         return redirect(request.META.get('HTTP_REFERER'))
     return redirect('profiles:my-profile-view')
+
+
+
+@login_required
+def send_message(request):
+    if request.method == 'POST':
+        pk = request.POST.get('profile_pk')
+        message = request.POST.get('message')
+        user = request.user
+        sender = Profile.objects.get(user=user)
+        receiver = Profile.objects.get(pk=pk)
+        
+        userName = sender.user.username
+
+        send_mail('You Have New message from: {}'.format(userName),
+        message, 
+        settings.EMAIL_HOST_USER,
+        [receiver.user.email],
+        fail_silently=False)
+
+        return redirect(request.META.get('HTTP_REFERER'))
 
 
