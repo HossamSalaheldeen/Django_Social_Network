@@ -63,10 +63,10 @@
 
 
             <div class="item">
-                <form action="" method="GET">
+                <form action='{% url "groups:all" %}' method="POST">
                     {% csrf_token %}
                     <div class="ui action left icon input">
-                        <input class="prompt" type="text" name='q' placeholder="name of a friend...">
+                        <input class="prompt" type="text" name='group_name' placeholder="Search for Group...">
                         <i class="search icon"></i>
                         <button type='submit' class="ui button">Search</button>
                     </div>

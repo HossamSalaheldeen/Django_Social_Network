@@ -8,7 +8,9 @@ from django.shortcuts import get_object_or_404
 from groups.models import Group,Groupmember
 from django.contrib import messages
 from django.db import IntegrityError
+from django.db.models import Q
 from . import models
+from .filters import GroupFilter
 # Create your views here.
 class Creategroup(CreateView):
     model=Group
@@ -23,7 +25,12 @@ class Singlegroup(DetailView):
     model=Group
 
 class Listgroup(ListView):
-    model=Group
+    model = Group
+    # def get(self, request, *args, **kwargs):
+    #     group_name=self.request.POST.get('group_name')
+    #     groups = Group.objects.filter(name=group_name)
+	# 	context = {'object_list': groups}
+	# 	return render(request, "groups/group_list.html", context=context)   
 
 class JoinGroup(LoginRequiredMixin,RedirectView):
 
