@@ -63,7 +63,7 @@
 
 
             <div class="item">
-                <form action='{% url "groups:all" %}' method="POST">
+                <form action='{% url "groups:all" %}' method="get">
                     {% csrf_token %}
                     <div class="ui action left icon input">
                         <input class="prompt" type="text" name='group_name' placeholder="Search for Group...">

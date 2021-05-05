@@ -26,11 +26,19 @@ class Singlegroup(DetailView):
 
 class Listgroup(ListView):
     model = Group
-    # def get(self, request, *args, **kwargs):
-    #     group_name=self.request.POST.get('group_name')
-    #     groups = Group.objects.filter(name=group_name)
-	# 	context = {'object_list': groups}
-	# 	return render(request, "groups/group_list.html", context=context)   
+    def get(self, request, *args, **kwargs):
+        query = request.GET.get("group_name", None)
+
+        
+        if query is None:
+            groups = Group.objects.all()
+        else:
+            group_name=request.GET.get('group_name')
+            groups = Group.objects.filter(name=group_name)
+            
+        context = {'object_list': groups,}
+		
+        return render(request, "groups/group_list.html", context=context)   
 
 class JoinGroup(LoginRequiredMixin,RedirectView):
 
