@@ -3,24 +3,25 @@ from django.urls import reverse_lazy
 from .models import Post, Like, Comment
 from profiles.models import Profile
 from .forms import PostModelForm, CommentModelForm
+from groups.models import Group
 from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import UpdateView, DeleteView
 from django.contrib import messages
+from django.db.models import Q
 # Create your views here.
 
 
 @login_required
 def post_comment_create_and_list_view(request):
-    qs = Post.objects.all()
+    qs = Post.objects.filter(Q(group__members=request.user) | Q(author__friends=request.user) & Q(group__isnull = True) | Q(author__user=request.user))
     profile = Profile.objects.get(user=request.user)
-
     # initials
     p_form = PostModelForm()
     c_form = CommentModelForm()
     post_added = False
-
+    p_form.fields['group'].queryset = Group.objects.filter(members=request.user)
     profile = Profile.objects.get(user=request.user)
 
     if 'submit_p_form' in request.POST:
@@ -115,7 +116,6 @@ class PostUpdateView(LoginRequiredMixin, UpdateView):
         else:
             form.add_error(None, 'You must be the author of the post to be able to update it!')
             return super().form_invalid(form)
-
 
 @login_required
 def post_comment_delete(self, pk):

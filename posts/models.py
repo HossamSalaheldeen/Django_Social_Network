@@ -12,7 +12,7 @@ class Post(models.Model):
     updated = models.DateTimeField(auto_now=True)
     created = models.DateTimeField(auto_now_add=True)
     author  = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='posts')
-    group=models.ForeignKey(Group,related_name='posts',null=True,blank=True,on_delete=models.CASCADE)
+    group   = models.ForeignKey(Group,related_name='posts',null=True,blank=True,on_delete=models.CASCADE)
     
     def __str__(self):
         return str(self.content[:20])
@@ -57,5 +57,12 @@ class Like(models.Model):
     
     def __str__(self):
         return f"{self.user}-{self.post}-{self.value}"
+
+class BadWord(models.Model):
+
+    word   = models.CharField(max_length=100)
+    
+    def __str__(self):
+        return self.word
     
     

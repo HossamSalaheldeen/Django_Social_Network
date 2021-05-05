@@ -6,13 +6,26 @@ from django.views.generic import ListView, DetailView
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
+
+from django.conf import settings as conf_settings
 # Create your views here.
 
 
 @login_required
 def my_profile_view(request):
-
+    first_time = False
     profile = Profile.objects.get(user=request.user)
+    objData = Profile.objects.get(pk=profile.id)
+    if objData.first_name == '':
+        first_time = True
+        print("firstTime = ",first_time)
+        form = ProfileModelForm(request.POST or None, request.FILES, instance=profile)
+        if request.method == 'POST':
+            if form.is_valid():
+                form.save()
+                return redirect('posts:main-post-view')
+        return render(request, 'profiles/myprofile.html',{'form':form, 'firstTime':first_time})
+        
     form    = ProfileModelForm(request.POST or None, request.FILES, instance=profile)
     confirm = False
 

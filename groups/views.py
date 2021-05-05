@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.http import HttpResponseRedirect
 from django.views.generic import CreateView,DetailView,ListView,RedirectView
 from django.contrib.auth.mixins import LoginRequiredMixin,PermissionRequiredMixin
 from groups.models import Group
@@ -9,12 +10,14 @@ from django.contrib import messages
 from django.db import IntegrityError
 from . import models
 # Create your views here.
-
-
 class Creategroup(CreateView):
     model=Group
     fields=('name','description')
-    success_url=reverse_lazy('groups:all')
+    def form_valid(self, form):
+        self.object = form.save()
+        Groupmember.objects.create(group=self.object, user=self.request.user)
+        Groupmember.save(self.object)
+        return HttpResponseRedirect(reverse_lazy('groups:all'))
 
 class Singlegroup(DetailView):
     model=Group
@@ -55,7 +58,4 @@ class LeaveGroup(LoginRequiredMixin,RedirectView):
             membership.delete()
             messages.success(self.request,"You have left the group")
 
-
-
         return super().get(request, *args, **kwargs)
-
