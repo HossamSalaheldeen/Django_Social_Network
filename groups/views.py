@@ -29,7 +29,6 @@ class Listgroup(ListView):
     def get(self, request, *args, **kwargs):
         query = request.GET.get("group_name", None)
 
-        
         if query is None:
             groups = Group.objects.all()
         else:

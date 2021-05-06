@@ -49,9 +49,8 @@
             <div class="content">
                 <h3> {{ obj.content }} </h3>
                 <div class="right floated">
-                    <form action="{% url 'posts:like-post-view' %}" method="POST" class='like-form' id='{{obj.id}}'>
+                    <form action="{% url 'posts:like-post-view' %}" method="POST" class='like-form' user_pk='{{obj.author_id}}' id='{{obj.id}}'>
                         {% csrf_token %}
-                        <input type="hidden" name="post_id" value={{obj.id}}>
                         <span class="ui button like-count{{obj.id}}"> {{obj.num_likes}}</span>
                         <button type="submit" class="ui button like-btn{{obj.id}}">
                             {% if profile not in obj.liked.all %}
@@ -149,6 +148,8 @@
             e.preventDefault()
 
             const post_id = $(this).attr('id')
+            const user_id = $(this).attr('user_pk')
+            
 
             const likeText = $(`.like-btn${post_id}`).text()
             const trim = $.trim(likeText)
@@ -165,6 +166,7 @@
                 data: {
                     'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val(),
                     'post_id': post_id,
+                    'user_id': user_id,
                 },
                 success: function (response) {
                     if (trim === 'Unlike') {
