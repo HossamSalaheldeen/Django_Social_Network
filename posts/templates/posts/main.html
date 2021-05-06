@@ -5,11 +5,21 @@
 {% block content %}
 <div class="ui grid">
     <div class="eleven wide column">
+
         {% for obj in qs %}
+        {{ qs_group_member }}
+
+        {% for obj_mem in qs_group_member %}
+
+        {{ obj_mem.is_accepted }}
+
+
+
+        {% if True %}
         <div class="ui fluid card">
             <div class="content">
                 <div class="right floated meta">
-                    
+
                     <div class="row">
 
                         {% ifequal request.user obj.author.user %}
@@ -31,7 +41,7 @@
 
                 <img class="ui avatar image" src={{obj.author.avatar.url}}>
                 <h5 class="d-inline-block mt-2">
-                    {{ obj.author.user }} - {{ obj.created|timesince}} ago 
+                    {{ obj.author.user }} - {{ obj.created|timesince}} ago
                     {% if obj.group %}
                     <span class="badge badge-danger ml-3">
                         <a href="{% url 'groups:single' slug=obj.group.slug %}" class="lead m-2" style="color: #fff">
@@ -49,7 +59,8 @@
             <div class="content">
                 <h3> {{ obj.content }} </h3>
                 <div class="right floated">
-                    <form action="{% url 'posts:like-post-view' %}" method="POST" class='like-form' user_pk='{{obj.author_id}}' id='{{obj.id}}'>
+                    <form action="{% url 'posts:like-post-view' %}" method="POST" class='like-form'
+                        user_pk='{{obj.author_id}}' id='{{obj.id}}'>
                         {% csrf_token %}
                         <span class="ui button like-count{{obj.id}}"> {{obj.num_likes}}</span>
                         <button type="submit" class="ui button like-btn{{obj.id}}">
@@ -97,6 +108,10 @@
                 </form>
             </div>
         </div>
+        {% endif %}
+
+        {% endfor %}
+
         {% endfor %}
     </div>
     <div class="five wide column">
@@ -138,7 +153,7 @@
             }
         });
 
-        $(".click").click(function(){
+        $(".click").click(function () {
             setTimeout(function () {
                 location.reload()
             }, 100);
@@ -149,7 +164,7 @@
 
             const post_id = $(this).attr('id')
             const user_id = $(this).attr('user_pk')
-            
+
 
             const likeText = $(`.like-btn${post_id}`).text()
             const trim = $.trim(likeText)

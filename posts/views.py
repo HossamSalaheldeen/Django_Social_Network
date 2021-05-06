@@ -3,7 +3,7 @@ from django.urls import reverse_lazy
 from .models import Post, Like, Comment
 from profiles.models import Profile
 from .forms import PostModelForm, CommentModelForm
-from groups.models import Group
+from groups.models import Group, Groupmember
 from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -20,6 +20,13 @@ from django.db.models import Q
 @login_required
 def post_comment_create_and_list_view(request):
     qs = Post.objects.filter(Q(group__members=request.user) | Q(author__friends=request.user) & Q(group__isnull = True) | Q(author__user=request.user) & Q(group__isnull = True))
+    
+    qs_group_member = Groupmember.objects.filter(user=request.user)
+
+    print('========================')
+    print(qs_group_member)
+    print('========================')
+        
     profile = Profile.objects.get(user=request.user)
     p_form = PostModelForm()
     c_form = CommentModelForm()
@@ -51,6 +58,7 @@ def post_comment_create_and_list_view(request):
         'p_form': p_form,
         'c_form': c_form,
         'post_added': post_added,
+        'qs_group_member':qs_group_member,
     }
 
     return render(request, 'posts/main.html', context)
