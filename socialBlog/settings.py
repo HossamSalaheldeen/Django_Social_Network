@@ -40,7 +40,6 @@ INSTALLED_APPS = [
     'django.contrib.sites',
     'profiles',
     'posts',
-    'django_misaka',
     'crispy_forms',
     'allauth',
     'allauth.account',
@@ -129,11 +128,7 @@ DATABASES = {
         },
         'NAME': 'social_network',
         'USER': 'root',
-<<<<<<< HEAD
         'PASSWORD':'0000',
-=======
-        'PASSWORD':'',
->>>>>>> 1d6895328ac7825327878094e050b977cd2a428b
         'HOST':'127.0.0.1',
         'PORT': 3306
 

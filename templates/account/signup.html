@@ -1,26 +1,50 @@
 {% extends "base.html" %}
+{% load static %}
+{% block extracss %}
+<link rel="stylesheet" href={% static "css/bird.css" %}>
+{% endblock %}
 {% load crispy_forms_tags %}
 {% load i18n %}
 
 {% block head_title %}{% trans "Signup" %}{% endblock %}
 
 {% block content %}
-<h1>{% trans "Sign Up" %}</h1>
+<div class="row" style="margin-top: 100px">
+  <div class="col-md-6" style="text-align: left">
+    <h1>{% trans "Sign Up" %}</h1>
 
-<p>{% blocktrans %}Already have an account? Then please <a href="{{ login_url }}">sign in</a>.{% endblocktrans %}</p>
-<div class="ui grid">
-  <div class="six wide column">
-    <form class="signup ui form" id="signup_form" method="post" action="{% url 'account_signup' %}">
-      {% csrf_token %}
-      {{ form.as_p }}
-      {% if redirect_field_value %}
-      <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
-      {% endif %}
-      <button class="ui button primary" type="submit">{% trans "Sign Up" %} &raquo;</button>
-    </form>
+    <p>{% blocktrans %}Already have an account? Then please <a href="{{ login_url }}">sign in</a>.{% endblocktrans %}</p>
+    <div class="">
+        <form class="signup ui form" id="signup_form" method="post" action="{% url 'account_signup' %}">
+          {% csrf_token %}
+          {{ form.as_p }}
+          {% if redirect_field_value %}
+          <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+          {% endif %}
+          <button class="ui button primary" type="submit">{% trans "Sign Up" %} &raquo;</button>
+        </form>
+      </div>
+    {{hello}}
+  </div>
+  <div class="col-md-6">
+    <div class="globe">
+        <div class="bird">
+            <div class="body">
+                <div class="eye left"></div>
+                <div class="eye right"></div>
+                <div class="beak">
+                    <div></div>
+                </div>
+                <div class="feet"></div>
+                <div class="wire"></div>
+            </div>
+            <div class="hills"></div>
+            <div class="cloud"></div>
+            <div class="cloud small"></div>
+        </div>
+    </div>
   </div>
 </div>
-{{hello}}
 
 
 {% endblock %}
