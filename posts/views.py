@@ -20,18 +20,14 @@ from django.db.models import Q
 @login_required
 def post_comment_create_and_list_view(request):
     qs = Post.objects.filter(Q(group__members=request.user) | Q(author__friends=request.user) & Q(group__isnull = True) | Q(author__user=request.user) & Q(group__isnull = True))
-    
     qs_group_member = Groupmember.objects.filter(user=request.user)
+    qs_group = Groupmember.objects.values_list('group_id', flat=True).filter(user=request.user, is_accepted=1)
 
-    print('========================')
-    print(qs_group_member)
-    print('========================')
-        
     profile = Profile.objects.get(user=request.user)
     p_form = PostModelForm()
     c_form = CommentModelForm()
     post_added = False
-    p_form.fields['group'].queryset = Group.objects.filter(members=request.user)
+    p_form.fields['group'].queryset = Group.objects.filter(members=request.user, pk__in=qs_group)
     profile = Profile.objects.get(user=request.user)
 
     if 'submit_p_form' in request.POST:
