@@ -128,7 +128,7 @@ DATABASES = {
         },
         'NAME': 'social_network',
         'USER': 'root',
-        'PASSWORD':'0000',
+        'PASSWORD':'123456789',
         'HOST':'127.0.0.1',
         'PORT': 3306
 

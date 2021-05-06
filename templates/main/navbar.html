@@ -14,7 +14,7 @@
 
         {% if request.user.is_authenticated %}
         <a href="{{path_to_posts}}" class="{% if request.path == path_to_posts %}active{% endif %} item">
-            Board
+            NewsFeed
         </a>
         {% endif %}
 
