@@ -6,7 +6,7 @@ class PostModelForm(forms.ModelForm):
     class Meta:
         model = Post
         fields = ('content', 'group', 'image')
-
+        
     def clean_content(self):
         content = self.cleaned_data.get('content')
         bad_words = BadWord.objects.all()

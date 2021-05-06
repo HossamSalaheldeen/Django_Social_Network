@@ -9,6 +9,10 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import UpdateView, DeleteView
 from django.contrib import messages
+
+from django.conf import settings
+from django.core.mail import send_mail
+
 from django.db.models import Q
 # Create your views here.
 
@@ -57,14 +61,26 @@ def like_unlike_post(request):
     user = request.user
 
     if request.method == "POST":
+        pk  = request.POST.get('user_id')
         post_id  = request.POST.get('post_id')
+        
         post_obj = Post.objects.get(id=post_id)
         profile  = Profile.objects.get(user=user)
+        receiver = Profile.objects.get(pk=pk)
+
+        user = request.user
+        sender = Profile.objects.get(user=user)
+
+        receiverName = receiver.user.email
+        senderName   = sender.user.username
         
         if profile in post_obj.liked.all():
             post_obj.liked.remove(profile)
+            
+
         else:
             post_obj.liked.add(profile)
+             
 
         like, created = Like.objects.get_or_create(user=profile, post_id=post_id)
 
@@ -77,12 +93,20 @@ def like_unlike_post(request):
             post_obj.save()
 
             like.save()
+
+           
+
         data = {
             'value': like.value,
             'likes': post_obj.liked.all().count()
         }
-
+        send_mail('User {} has react on your post'.format(senderName),
+            'Your post: {}'.format(post_obj.content), 
+            settings.EMAIL_HOST_USER,
+            [receiver.user.email],
+            fail_silently=False)
         return JsonResponse(data, safe=False)
+    
 
     return redirect('posts:main-post-view')
 

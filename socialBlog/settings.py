@@ -40,7 +40,6 @@ INSTALLED_APPS = [
     'django.contrib.sites',
     'profiles',
     'posts',
-    'django_misaka',
     'crispy_forms',
     'allauth',
     'allauth.account',
@@ -172,6 +171,16 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
+
+
+EMAIL_BACKEND ='django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST='smtp.gmail.com'
+EMAIL_HOST_PASSWORD = '123456789iti'
+EMAIL_HOST_USER = '41.os.iti@gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_USE_SSL = False
+authentication: 'plain'
 
 STATIC_URL = '/static/'
 

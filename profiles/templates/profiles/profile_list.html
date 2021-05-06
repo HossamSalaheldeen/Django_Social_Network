@@ -37,6 +37,13 @@ Profile list
                             <input type="hidden" name="profile_pk" value="{{ obj.pk }}">
                             <button type="submit" class="ui negative basic button mb-5 w-big"><i class="minus square icon"></i>Remove From friends</button>
                         </form>
+
+                        <form action="{% url 'profiles:send-message' %}" method="POST">
+                            {% csrf_token %}
+                            <input type="hidden" name="profile_pk" value="{{ obj.pk }}">
+                            <textarea name="message" id="" cols="30" rows="10"></textarea>
+                            <button type="submit" class="ui positive button mt-3 w-full click">cle<i class="thumbs send icon"></i>Send</button>
+                        </form>
                     {% endif %}
                     <form action="{% url 'profiles:remove-friend' %}" method="POST">
                         {% csrf_token %}
