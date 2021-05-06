@@ -180,7 +180,7 @@ EMAIL_HOST_USER = '41.os.iti@gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_USE_SSL = False
-authentication: 'plain'
+
 
 STATIC_URL = '/static/'
 
