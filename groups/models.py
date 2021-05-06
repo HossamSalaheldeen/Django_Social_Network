@@ -1,8 +1,6 @@
 from django.db import models
 from django.utils.text import slugify
 from django.urls import reverse
-
-
 # Create your models here.
 #from django.contrib.auth.models import User
 from django.contrib.auth import get_user_model
@@ -16,19 +14,26 @@ class Group(models.Model):
     slug=models.SlugField(allow_unicode=True,unique=True)
     description=models.TextField(blank=True,default='')
     description_html=models.TextField(editable=False,default='',blank=True)
-    members=models.ManyToManyField(User,through="Groupmember", blank=True)
+    created_by= models.ForeignKey(User, related_name="user", on_delete=models.CASCADE)
+    members=models.ManyToManyField(User, through="Groupmember", blank=True)
 
     def __str__(self):
         return self.name
 
     def save(self, *args,**kwargs):
+        is_new = True if not self.id else False
         self.slug=slugify(self.name)
         self.description_html=self.description
-        super().save(*args,**kwargs)
+        super(Group, self).save(*args,**kwargs)
+        if is_new:
+            Groupmember.objects.create(group_id=self.id, user=self.created_by, is_accepted=1)
 
     def get_absolute_url(self):
         return reverse("groups:single", kwargs={"slug": self.slug})
-    
+
+    def join_requests(self):
+        return Groupmember.objects.filter(group=self, is_accepted=None)
+
     class Meta:
         ordering =['name']
 
@@ -36,10 +41,10 @@ class Group(models.Model):
 class Groupmember(models.Model):
     group=models.ForeignKey(Group,related_name='membership',on_delete=models.CASCADE)
     user=models.ForeignKey(User,related_name='user_groups',on_delete=models.CASCADE)
+    is_accepted=models.BooleanField(default=False, null=True)
 
     def __str__(self):
         return self.user.username
     
     class Meta:
         unique_together=('group','user')
-

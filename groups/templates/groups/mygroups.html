@@ -1,0 +1,58 @@
+{% extends "groups/group_base.html"%}
+
+{% block title %}All Groups{% endblock title %}
+
+{% block pregroup %}
+
+<div class="content mt-5 text-center">
+    {% if user.is_authenticated %}
+    <h1> Welcome back
+        <a href='{% url "posts:main-post-view" %}'>
+            {{user.username}}
+        </a>
+        , manage your group
+    </h1>
+    {% endif %}
+</div>
+<br>
+<div class="createnewgrpbtn my-4">
+    {% if user.is_authenticated%}
+    <a href={% url "groups:create" %} class="btn btn-lg btn-warning">
+        <i class="thumbs add icon"></i>Create new group
+    </a>
+    {% endif %}
+</div>
+{% endblock %}
+{% block group_content %}
+    <div class="list-group flex-container">
+        <table class="table" style="font-size: 18px">
+      <thead class="thead-dark">
+        <tr>
+          <th scope="col">Name</th>
+          <th scope="col">Description</th>
+          <th scope="col">No. Members</th>
+          <th scope="col">No. Posts</th>
+        </tr>
+      </thead>
+      <tbody>
+            {% for group in object_list %}
+                <tr>
+                    <td scope="row">
+                        <a href="{% url 'groups:single' slug=group.slug%}" style="color: #000; font-weight: bold">
+                            <span class="badge badge-danger px-3 py-2">{{group.name}}</span>
+                        </a>
+                    </td>
+
+                    <td>{{group.description_html|safe}}</td>
+
+                    <td>{{group.members.count}} member{{group.members.count|pluralize}}</td>
+
+                    <td>{{group.posts.count}} post{{group.posts.count|pluralize}}</td>
+
+                </tr>
+            {% endfor %}
+      </tbody>
+    </table>
+
+</div>
+{% endblock %}
