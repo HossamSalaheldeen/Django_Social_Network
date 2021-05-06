@@ -80,7 +80,7 @@ def like_unlike_post(request):
 
         else:
             post_obj.liked.add(profile)
-             
+
 
         like, created = Like.objects.get_or_create(user=profile, post_id=post_id)
 
@@ -94,7 +94,6 @@ def like_unlike_post(request):
 
             like.save()
 
-           
 
         data = {
             'value': like.value,

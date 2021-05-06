@@ -8,28 +8,47 @@
     <h3> {{group.description|safe}} </h3><br>
     <h3> Members count : {{group.members.is_accepted.count}}</h3><br>
 
-    {{ group.joined_request}}
-    {{ group.joined_request.user_id }}
-    {{ request.user.id }}
-    {{ group.joined_request.group_id }}
-    {{ group.id }}
 
-    {{ context }}
+    {% if group.created_by.id == request.user.id %}
 
-    {% if group.joined_request.user_id == request.user.id and group.joined_request.is_accepted == True %}
+    {% else %}
+
+    {% if group.joined_request.count == 1 and group.created_by.id != request.user.id %}
+
+    <a href="{% url 'groups:join' slug=group.slug %}" class="btn btn-lg btn-success" id="jl"><span
+            class="icon-ok-circle"></span>Join</a>
+
+    {% else %}
+
+    {% for groupmem in group.joined_request %}
+
+    {% if groupmem.user_id == request.user.id %}
+
+    {% if groupmem.is_accepted == True %}
 
     <a href="{% url 'groups:leave' slug=group.slug %}" class="btn btn-lg btn-danger" id="jl"><span
             class="fas fa-sign-out-alt"></span>Leave</a>
 
-    {% elif group.rejected_request.user_id == request.user.id and group.rejected_request.is_accepted == False %}
+    {% elif groupmem.is_accepted == False %}
     <a href="{% url 'groups:join' slug=group.slug %}" class="btn btn-lg btn-success" id="jl"><span
             class="icon-ok-circle"></span>Join</a>
 
 
-    {% else %}
+    {% elif groupmem.is_accepted == None %}
     <a href="{% url 'groups:join' slug=group.slug %}" class="btn btn-lg btn-primary" id="jl"><span
             class="icon-ok-circle"></span>Pending</a>
     {% endif %}
+
+    {% endif %}
+
+    {% endfor %}
+
+    {% endif %}
+    {% endif %}
+
+
+
+
     <br>
 </div>
 {% endblock %}
@@ -53,6 +72,8 @@
             </tr>
         </thead>
         <tbody>
+
+            {{ group.join_requests.count }}
             {% for member in group.join_requests %}
 
             <tr>

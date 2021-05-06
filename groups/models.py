@@ -9,8 +9,6 @@ User=get_user_model()
 from django import template
 register=template.Library()
 
-from urllib import request
-
 class Group(models.Model):
     name=models.CharField(max_length=250,unique=True)
     slug=models.SlugField(allow_unicode=True,unique=True)
@@ -36,15 +34,13 @@ class Group(models.Model):
         return reverse("groups:single", kwargs={"slug": self.slug})
 
     def join_requests(self):
-        ##loggin user
         return Groupmember.objects.filter(group=self, is_accepted=None)
     
-    def joined_request(self, request):        
-        # return Groupmember.objects.get(group=self, is_accepted=1, user=request.user.is_authenticated())
-        return Groupmember.objects.get(group=self, is_accepted=1)
+    def joined_request(self):        
+        return Groupmember.objects.filter(group=self)
     
     def rejected_request(self):        
-        return Groupmember.objects.get(group=self, is_accepted=0)
+        return Groupmember.objects.filter(group=self, is_accepted=0)
     
     # def reject_requests(self, request):
     #     print('============================')

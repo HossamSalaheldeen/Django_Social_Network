@@ -25,12 +25,6 @@ class Creategroup(CreateView):
 
 class Singlegroup(DetailView):
     model=Group
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['member'] = Groupmember.objects.all()
-        
-        return context
-
 
 class Listgroup(ListView):
     model = Group
@@ -64,19 +58,6 @@ class JoinGroup(LoginRequiredMixin,RedirectView):
         else:
             messages.success(self.request,"You are now a member!")
         return super().get(request,*args,**kwargs)
-    
-    # def accept_member(self, request):
-    #     Groupmember.objects.create(user=self.request.GET.get('user_id'), group=self.request.GET.get('group_id'))
-    #     print('==============================')
-    #     print(self.request.GET.get('user_id'))
-    #     print('==============================')
-    #     print(self.request.GET.get('user_id'))
-    #     print('==============================')
-    #     if value:
-    #         value.update(is_accepted = 1)
-    #         value.save()
-    #         messages.success(self.request,"Member Added Successfully")
-        
 
 class LeaveGroup(LoginRequiredMixin,RedirectView):
 
@@ -121,15 +102,7 @@ def Accept_member(request):
     
         value = Groupmember.objects.filter(user_id=int(request.GET.get('user_id')), group_id=int(request.GET.get('group_id')))
         group = Group.objects.get(pk=int(request.GET.get('group_id')))
-        print('==============================')
-        print(group)
-        print('==============================')
-        
-        print(request.GET.get('user_id'))
-        print('==============================')
-        print(request.GET.get('group_id'))
-        print('==============================')
-        
+             
         if value:
             value[0].is_accepted = 1
             value[0].save()
@@ -140,6 +113,7 @@ def Accept_member(request):
         
 def Reject_member(request):
         value = Groupmember.objects.filter(user_id=int(request.GET.get('user_id')), group_id=int(request.GET.get('group_id')))
+        value.delete()
         group = Group.objects.get(pk=int(request.GET.get('group_id')))
 
         if value:
@@ -147,4 +121,28 @@ def Reject_member(request):
             value[0].save()
             messages.success(request,"Member Added Successfully")
             context = {'object_list': value,}
+            
+        return redirect('/groups/posts/in/' + group.slug)
+        
+        
+        
+def Set_member_pending(request):
+        value = Groupmember.objects.filter(user_id=int(request.GET.get('user_id')), group_id=int(request.GET.get('group_id')))
+        group = Group.objects.get(pk=int(request.GET.get('group_id')))
+        
+        print("========================")
+        print(group)
+        print("========================")
+        print("========================")
+
+        if value:
+            value[0].is_accepted = None
+            value[0].save()
+            messages.success(request,"Member is pending now")
+            context = {'object_list': value,}
+            return redirect('/groups/posts/in/' + group.slug)
+        
+        else:
+            Groupmember.objects.create(user=int(request.GET.get('user_id')), group=int(request.GET.get('group_id'), is_accepted=None))
+                                    
             return redirect('/groups/posts/in/' + group.slug)
