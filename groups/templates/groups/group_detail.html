@@ -1,20 +1,26 @@
 {% extends "groups/group_base.html"%}
 
+{% block title %}{{group.name}}{% endblock title %}
+
 {% block pregroup %}
 <div class="col-md-8">
     <h1><U> {{group.name}}</U></h1><br><br>
     <h3> {{group.description|safe}} </h3><br>
-    <h3> Members count : {{group.members.count}}</h3><br>
+    <h3> Members count : {{group.members.is_accepted.count}}</h3><br>
 
-    {% if user in group.members.all %}
+    {% if user in group.members.all and group.members.is_accepted == 1 %}
 
     <a href="{% url 'groups:leave' slug=group.slug %}" class="btn btn-lg btn-danger" id="jl"><span
             class="fas fa-sign-out-alt"></span>Leave</a>
 
-    {% else %}
+    {% elif user in group.members.all and group.members.is_accepted == O %}
 
+    <a href="{% url 'groups:join' slug=group.slug %}" class="btn btn-lg btn-primary" id="jl"><span
+            class="icon-ok-circle"></span>Pending</a>
+    
+    {% else %}   
     <a href="{% url 'groups:join' slug=group.slug %}" class="btn btn-lg btn-success" id="jl"><span
-            class="icon-ok-circle"></span>Join</a>
+        class="icon-ok-circle"></span>Join</a>
     {% endif %}
     <br>
 </div>
@@ -23,14 +29,56 @@
 {% block group_content%}
 <div class="col-md-8">
     <br>
+   
     <h1> Posts:</h1>
+    
     {% if not group.posts.count %}
-    <h2> No posts yet</h2>
-    {% else %}
-    {% for post in group.posts.all%}
-    {% include "posts/_post.html"%}
-    {% endfor %}
+        <h2> No posts yet</h2>
     {% endif %}
+
+    {% if request.user == group.created_by %}
+    <table class="table" style="font-size: 18px">
+        <thead class="thead-dark">
+          <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+              {% for member in group.join_requests %}
+
+                  <tr>
+                      <td scope="row">
+                          <a href="{% url 'groups:single' slug=group.slug%}" style="color: #000; font-weight: bold">
+                              <span class="badge badge-danger px-3 py-2">{{member.user}}</span>
+                          </a>
+                      </td>
+                      <td>
+                        
+                        <form action='{% url "groups:join" slug=group.slug %}' method="GET">
+                            {% csrf_token %}
+                            <input type="hidden" name="user_id" value={{member}}>
+                            <input type="hidden" name="group_id" value={{group}}>
+                            <button type="submit" style="color: #000; font-weight: bold">
+                                <span class="badge badge-danger px-3 py-2">Accept</span>
+                            </button>
+                        </form>
+
+                        <form action='{% url "groups:leave" slug=group.slug %}' method="GET">
+                            {% csrf_token %}
+                            <input type="hidden" name="user_id" value={{member.id}}>
+                            <input type="hidden" name="group_id" value={{group.id}}>
+                            <button type="submit" style="color: #000; font-weight: bold">
+                                    <span class="badge badge-danger px-3 py-2">Reject</span>
+                            </button>
+                        </form>
+
+                      </td>
+                  </tr>
+              {% endfor %}
+        </tbody>
+      </table>
+      {% endif %}
 </div>
 
 {% endblock%}

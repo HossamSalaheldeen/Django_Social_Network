@@ -14,7 +14,7 @@
 
         {% if request.user.is_authenticated %}
         <a href="{{path_to_posts}}" class="{% if request.path == path_to_posts %}active{% endif %} item">
-            Board
+            NewsFeed
         </a>
         {% endif %}
 
@@ -49,13 +49,25 @@
 
 
             <div class="item">
-                <li class="dropdown"><a class="dropdown-toggle" id="link" data-toggle="dropdown" href="#">Group <span
-                            class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                        <li id="post1"><a href="{% url 'groups:all' %}">All Groups</a></li>
-                        <li id="post1"><a href="{% url 'groups:create' %}">New Group</a></li>
-                    </ul>
-                </li>
+
+                <div class="btn-group">
+                    <button type="button" class="btn btn-warning dropdown-toggle" data-toggle="dropdown"
+                        aria-haspopup="true" aria-expanded="false">
+                        Group
+                    </button>
+                    <div class="dropdown-menu">
+                        <a href="{% url 'groups:all' %}" class="dropdown-item py-2">
+                            All Groups
+                        </a>
+                        <a href="{% url 'groups:create' %}" class="dropdown-item py-2">
+                            New Group
+                        </a>
+                        <a href="{% url 'groups:mygroup' %}" class="dropdown-item py-2">
+                            My Group
+                        </a>
+                    </div>
+                </div>
+
             </div>
 
 
