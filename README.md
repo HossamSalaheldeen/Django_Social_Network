@@ -32,3 +32,34 @@ Once `pip` has finished downloading the dependencies:
 (env)$ python manage.py runserver
 ```
 And navigate to `http://127.0.0.1:8000`.
+
+
+### As a user you can  
+```
+- register myself in social media app
+- login to the social media app
+- add friends 
+- edit my profile 
+- create post
+- can join groups
+- like friends posts and comment on any friend's post
+- delete my posts only
+- delete my comments only
+- unlike posts
+- visit my friends profile 
+- can create a group 
+- receive a group join request if I am a group owner
+- sent a join request to a specific group
+- search for any group name 
+- send a message to any of my friends list through email
+- see my notifications through email
+
+```
+##### As an Admin you can
+```
+- can deactiviate user
+- edit groups members 
+- remove any group with all its related data
+- As an admiin I can create/edit Profanities List (Bad words list) that will validate the accepatnce of posts and comments 
+
+```
