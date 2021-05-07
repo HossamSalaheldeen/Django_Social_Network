@@ -53,11 +53,7 @@
                 </div>
 
             </div>
-
-
-
             <div class="item">
-
                 <div class="btn-group">
                     <button type="button" class="btn btn-warning dropdown-toggle" data-toggle="dropdown"
                         aria-haspopup="true" aria-expanded="false">
@@ -77,11 +73,6 @@
                 </div>
 
             </div>
-
-
-
-
-
             <div class="item">
                 <form action='{% url "groups:all" %}' method="get">
                     {% csrf_token %}
@@ -92,12 +83,10 @@
                     </div>
                 </form>
             </div>
-
             <a href="{{path_to_my_profile}}" class="{% if request.path == path_to_my_profile %}active{% endif %} item">
                 <img src={{picture.url}} class="ui avatar image">&nbsp;
                 {{ request.user }}
             </a>
-
             <div class="item">
                 <form method="post" action="{% url 'account_logout' %}">
                     {% csrf_token %}
@@ -108,11 +97,9 @@
 
                 </form>
             </div>
-
             {% else %}
             <a href="{% url 'account_login' %}" class="ui item"> Login</a>
             {% endif %}
-
         </div>
     </div>
 </div>
