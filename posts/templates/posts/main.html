@@ -43,7 +43,7 @@
             </div>
             <div class="ui fluid image">
                 {% if obj.image %}
-                <img src={{obj.image.url}}>
+                <img src={{obj.image.url}} style="width: 100%; height: 400px;">
                 {% endif %}
             </div>
             <div class="content">
@@ -92,7 +92,7 @@
                     <input type="hidden" name="post_id" value={{obj.id}}>
                     {{ c_form }}
                     <button type="submit" name="submit_c_form" class="ui primary button mt-3 w-full">
-                        <i class="thumbs send icon"></i> Send
+                        <i class="thumbs send icon"></i> Add Comment
                     </button>
                 </form>
             </div>
@@ -101,7 +101,7 @@
     </div>
     <div class="five wide column">
         <div class="ui segment">
-            <h2>Add new Post</h2>
+            <h2 class="alert alert-info">Add new Post</h2>
             {% if post_added %}
             <div class="ui green message">Post added</div>
             {% endif %}
@@ -109,7 +109,7 @@
                 {% csrf_token %}
                 {{p_form}}
                 <button type='submit' name="submit_p_form" class="ui positive button mt-3 w-full click">
-                    <i class="thumbs send icon"></i> Send
+                    <i class="thumbs send icon"></i> Add Post
                 </button>
             </form>
         </div>

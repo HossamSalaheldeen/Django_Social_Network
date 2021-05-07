@@ -39,8 +39,6 @@ class CommentModelForm(forms.ModelForm):
             if word in body_list:
                 bad_words_list.append(word)
         bad_words_string = ', '.join(bad_words_list)
-        print("bad_words_list = ",bad_words_list)
-        print("bad_words_string = ",bad_words_string)
         if len(bad_words_list) > 0:
             raise ValidationError("The body of a comment contain bad words " + bad_words_string)
         return body

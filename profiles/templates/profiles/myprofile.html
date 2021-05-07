@@ -8,6 +8,7 @@
 
 {% if firstTime %}
 <div class="container">
+    <div class="h2 alert alert-success text-center">Insert your profile data</div>
     <form role="form" method="POST" enctype="multipart/form-data">
         {% csrf_token %}
         {{form|crispy}}
