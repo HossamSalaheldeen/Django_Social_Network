@@ -42,16 +42,17 @@ Profile list
                             {% csrf_token %}
                             <input type="hidden" name="profile_pk" value="{{ obj.pk }}">
                             <textarea name="message" id="" cols="30" rows="10"></textarea>
-                            <button type="submit" class="ui positive button mt-3 w-full click">cle<i class="thumbs send icon"></i>Send</button>
+                            <br>
+                            <button type="submit" class="ui positive button mt-3 w-full click"><i class="thumbs send icon"></i>Send message</button>
                         </form>
                     {% endif %}
-                    <form action="{% url 'profiles:remove-friend' %}" method="POST">
+                    <!-- <form action="{% url 'profiles:remove-friend' %}" method="POST">
                         {% csrf_token %}
                         <textarea class="ui secondary" rows="4" cols="50"></textarea>
                         <input type="hidden" name="profile_pk" value="{{ obj.pk }}">
                         <br>
                         <button type="submit" class="ui secondary basic button mb-5 w-big"><i class="minus square icon"></i>Send message</button>
-                    </form>
+                    </form> -->
                 </div>
             </div>
         </div>

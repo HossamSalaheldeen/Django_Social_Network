@@ -33,7 +33,7 @@
                 <h5 class="d-inline-block mt-2">
                     {{ obj.author.user }} - {{ obj.created|timesince}} ago
                     {% if obj.group %}
-                    <span class="badge badge-danger ml-3">
+                    <span class="badge badge-info ml-3">
                         <a href="{% url 'groups:single' slug=obj.group.slug %}" class="lead m-2" style="color: #fff">
                             {{obj.group.name}}
                         </a>
