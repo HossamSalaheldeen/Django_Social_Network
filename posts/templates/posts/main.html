@@ -5,17 +5,7 @@
 {% block content %}
 <div class="ui grid">
     <div class="eleven wide column">
-
         {% for obj in qs %}
-        {{ qs_group_member }}
-
-        {% for obj_mem in qs_group_member %}
-
-        {{ obj_mem.is_accepted }}
-
-
-
-        {% if True %}
         <div class="ui fluid card">
             <div class="content">
                 <div class="right floated meta">
@@ -108,10 +98,6 @@
                 </form>
             </div>
         </div>
-        {% endif %}
-
-        {% endfor %}
-
         {% endfor %}
     </div>
     <div class="five wide column">
@@ -156,7 +142,7 @@
         $(".click").click(function () {
             setTimeout(function () {
                 location.reload()
-            }, 100);
+            }, 350);
         })
 
         $('.like-form').submit(function (e) {

@@ -35,24 +35,17 @@ class Listgroup(ListView):
         else:
             group_name=request.GET.get('group_name')
             groups = Group.objects.filter(name=group_name)
-    
-        context = {'object_list': groups,}
-		
+        context = {'object_list': groups,}		
         return render(request, "groups/group_list.html", context=context)   
 
 class JoinGroup(LoginRequiredMixin,RedirectView):
-
     def get_redirect_url(self, *args, **kwargs):
         return reverse('groups:single',kwargs={'slug' : self.kwargs.get('slug')})
-
     def get(self, request, *args, **kwargs):
         group=get_object_or_404(Group,slug=self.kwargs.get('slug'))
-        print('=======(0)======')
-        
         try:
             print(self.request.GET.get('user_id'))
             Groupmember.objects.create(user=self.request.user, group=group, is_accepted=None)
-
         except IntegrityError:
             messages.warning(self.request,"Warning! You are not a user!")
         else:
@@ -60,12 +53,9 @@ class JoinGroup(LoginRequiredMixin,RedirectView):
         return super().get(request,*args,**kwargs)
 
 class LeaveGroup(LoginRequiredMixin,RedirectView):
-
     def get_redirect_url(self, *args, **kwargs):
         return reverse('groups:single',kwargs={'slug' : self.kwargs.get('slug')})
-    
     def get(self, request, *args, **kwargs):
-
         try:
             membership=models.Groupmember.objects.filter(
                 user=self.request.user,
@@ -76,7 +66,6 @@ class LeaveGroup(LoginRequiredMixin,RedirectView):
         else:
             membership.delete()
             messages.success(self.request,"You have left the group")
-
         return super().get(request, *args, **kwargs)
     
     def remove_member(self, request):
@@ -97,12 +86,9 @@ def MyGroup(request):
     return render(request, "groups/mygroups.html", context=context) 
 
 
-def Accept_member(request):
-        # value = Groupmember.objects.filter(Q(user=request.GET.get('user')) & Q(group=request.GET.get('group')))
-    
+def Accept_member(request):    
         value = Groupmember.objects.filter(user_id=int(request.GET.get('user_id')), group_id=int(request.GET.get('group_id')))
         group = Group.objects.get(pk=int(request.GET.get('group_id')))
-             
         if value:
             value[0].is_accepted = 1
             value[0].save()
@@ -115,7 +101,6 @@ def Reject_member(request):
         value = Groupmember.objects.filter(user_id=int(request.GET.get('user_id')), group_id=int(request.GET.get('group_id')))
         value.delete()
         group = Group.objects.get(pk=int(request.GET.get('group_id')))
-
         if value:
             value[0].is_accepted = 0
             value[0].save()
@@ -129,20 +114,12 @@ def Reject_member(request):
 def Set_member_pending(request):
         value = Groupmember.objects.filter(user_id=int(request.GET.get('user_id')), group_id=int(request.GET.get('group_id')))
         group = Group.objects.get(pk=int(request.GET.get('group_id')))
-        
-        print("========================")
-        print(group)
-        print("========================")
-        print("========================")
-
         if value:
             value[0].is_accepted = None
             value[0].save()
             messages.success(request,"Member is pending now")
             context = {'object_list': value,}
             return redirect('/groups/posts/in/' + group.slug)
-        
         else:
             Groupmember.objects.create(user=int(request.GET.get('user_id')), group=int(request.GET.get('group_id'), is_accepted=None))
-                                    
             return redirect('/groups/posts/in/' + group.slug)
