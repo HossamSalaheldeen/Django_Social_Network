@@ -3,11 +3,9 @@
 {% block title %}{{group.name}}{% endblock title %}
 
 {% block pregroup %}
-<div class="col-md-8">
-    <h1><U> {{group.name}}</U></h1><br><br>
+<div class="col-md-12">
+    <h1 class="text-center my-5"> {{group.name}}</h1>
     <h3> {{group.description|safe}} </h3><br>
-    <h3> Members count : {{group.members.is_accepted.count}}</h3><br>
-
 
     {% if group.created_by.id == request.user.id %}
 
@@ -54,13 +52,13 @@
 {% endblock %}
 
 {% block group_content%}
-<div class="col-md-8">
+<div class="col-md-12">
     <br>
 
-    <h1> Posts:</h1>
+    <h1> Join requests:</h1>
 
     {% if not group.posts.count %}
-    <h2> No posts yet</h2>
+    <h2> No request yet</h2>
     {% endif %}
 
     {% if request.user == group.created_by %}
@@ -84,21 +82,21 @@
                 </td>
                 <td>
 
-                    <form action='{% url "groups:accept-member" %}' method="GET">
+                    <form action='{% url "groups:accept-member" %}' method="GET" class="d-inline mr-3">
                         {% csrf_token %}
                         <input type="hidden" name="user_id" value={{member.user.id}}>
                         <input type="hidden" name="group_id" value={{group.id}}>
-                        <button type="submit" style="color: #000; font-weight: bold">
-                            <span class="badge badge-danger px-3 py-2">Accept</span>
+                        <button type="submit" class="btn btn-success " style="font-weight: bold">
+                            Accept
                         </button>
                     </form>
 
-                    <form action='{% url "groups:reject-member" %}' method="GET">
+                    <form action='{% url "groups:reject-member" %}' method="GET" class="d-inline">
                         {% csrf_token %}
                         <input type="hidden" name="user_id" value={{member.user.id}}>
                         <input type="hidden" name="group_id" value={{group.id}}>
-                        <button type="submit" style="color: #000; font-weight: bold">
-                            <span class="badge badge-danger px-3 py-2">Reject</span>
+                        <button type="submit" class="btn btn-danger " style="font-weight: bold">
+                            Reject
                         </button>
                     </form>
 

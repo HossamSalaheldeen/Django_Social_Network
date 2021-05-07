@@ -16,17 +16,19 @@
         <a href="{{path_to_posts}}" class="{% if request.path == path_to_posts %}active{% endif %} item">
             NewsFeed
         </a>
-            
-        {% if request.user.is_staff %}
-        <a href="/admin" class="btn btn-dark mt-2" style="height: 50px;">
-            Admin Panal
-        </a>
-    {% endif %}
+
         {% endif %}
 
         <div class="right menu">
             {% if request.user.is_authenticated %}
 
+            <div class="item">
+                {% if request.user.is_staff %}
+                    <button  class="btn btn-dark" style="">
+                        <a href="/admin" style="color: #fff">Admin Panal</a>
+                    </button>
+                    {% endif %}
+            </div>
             <div class="item">
 
                 <div class="btn-group">
